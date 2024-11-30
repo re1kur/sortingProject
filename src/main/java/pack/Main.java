@@ -5,7 +5,7 @@ import java.util.*;
 import java.util.function.Function;
 import java.util.function.BiFunction;
 
-public class MySort {
+public class Main {
 
     public static <T> List<T> mySort(
             List<T> array,
@@ -58,39 +58,35 @@ public class MySort {
         return i + 1;
     }
 
-    public static void main(String[] args) throws IOException {
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("Выберите тип данных (1 - числа, 2 - строки): ");
-        int dataType = scanner.nextInt();
-        scanner.nextLine(); // Consume newline
-
-        System.out.println("Введите путь к входному файлу: ");
-        String inputFilePath = scanner.nextLine();
-
-        System.out.println("Введите путь к выходному файлу: ");
-        String outputFilePath = scanner.nextLine();
-
-        System.out.println("Сортировать по убыванию? (true/false): ");
-        boolean reverse = scanner.nextBoolean();
-
-        List<String> lines = readFile(inputFilePath);
-        List<?> sortedData;
-
-        if (dataType == 1) {
-            // Работа с числовыми данными
-            List<Integer> numbers = new ArrayList<>();
-            for (String line : lines) {
-                numbers.add(Integer.parseInt(line.trim()));
+    public static void main(String[] args) {
+        try {
+            if (args.length < 4) {
+                System.out.println("Usage: java Main <dataType| 0 = String, 1 - Integer> <file_path> <output_path> <reversed| 1 = true, 0 = false>");
+                return;
             }
-            sortedData = mySort(numbers, reverse, null, null);
-        } else {
-            // Работа с текстовыми данными
-            sortedData = mySort(lines, reverse, null, null);
-        }
+            int dataType = Integer.parseInt(args[0]);
+            String inputFilePath = args[1];
+            String outputFilePath = args[2];
+            boolean reverse = false;
+            int reverseInt = Integer.parseInt(args[3]);
+            if (reverseInt == 1) reverse = true;
+            List<String> lines = readFile(inputFilePath);
+            List<?> sortedData;
 
-        writeFile(outputFilePath, sortedData);
-        System.out.println("Сортировка завершена. Результат записан в файл: " + outputFilePath);
+            if (dataType == 1) {
+                List<Integer> numbers = new ArrayList<>();
+                for (String line : lines) {
+                    numbers.add(Integer.parseInt(line.trim()));
+                }
+                sortedData = mySort(numbers, reverse, null, null);
+            } else {
+                sortedData = mySort(lines, reverse, null, null);
+            }
+            writeFile(outputFilePath, sortedData);
+            System.out.println("Сортировка завершена. Результат записан в файл: " + outputFilePath);
+        } catch (Exception _) {
+            System.out.println();
+        }
     }
 
     private static List<String> readFile(String filePath) throws IOException {

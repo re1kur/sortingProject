@@ -14,11 +14,10 @@ public class MySortWithVisualization extends Application {
     private static final int BAR_WIDTH = 20;
     private static final int WINDOW_HEIGHT = 400;
     private static final int WINDOW_WIDTH = 400;
+    private static List<Integer> array;
 
     private Pane pane;
-    private List<Integer> array;
     private boolean reverse;
-    private int delay = 300; // Задержка в миллисекундах
 
     public static void main(String[] args) {
         Application.launch(args);
@@ -26,10 +25,8 @@ public class MySortWithVisualization extends Application {
 
     @Override
     public void start(Stage stage) {
-        // Пример массива
-        array = generateRandomArray(20, 10, 100);
+        array = generateRandomArray();
         reverse = false; // По умолчанию сортировка по возрастанию
-
         pane = new Pane();
         pane.setPrefSize(WINDOW_WIDTH, WINDOW_HEIGHT);
 
@@ -48,11 +45,11 @@ public class MySortWithVisualization extends Application {
         stage.show();
     }
 
-    private List<Integer> generateRandomArray(int size, int min, int max) {
+    private List<Integer> generateRandomArray() {
         Random random = new Random();
         List<Integer> array = new ArrayList<>();
-        for (int i = 0; i < size; i++) {
-            array.add(random.nextInt(max - min + 1) + min);
+        for (int i = 0; i < 20; i++) {
+            array.add(random.nextInt(100 - 10 + 1) + 10);
         }
         return array;
     }
@@ -69,6 +66,7 @@ public class MySortWithVisualization extends Application {
         int pivot = array.get(high);
         int i = low - 1;
 
+        int delay = 300;
         for (int j = low; j < high; j++) {
             if ((reverse && array.get(j) > pivot) || (!reverse && array.get(j) < pivot)) {
                 i++;

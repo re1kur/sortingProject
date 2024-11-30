@@ -1,5 +1,5 @@
 module sortingProject {
     requires javafx.graphics;
     requires junit;
-    opens pack;
+    opens pack to javafx.graphics;
 }
